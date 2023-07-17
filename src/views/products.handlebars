@@ -1,6 +1,6 @@
 <header class='navbar navbar-expand-lg navbar-light bg-light'>
   <div class='container-fluid'>
-    <a class='navbar-brand' href='/home'>
+    <a class='navbar-brand' href='/products'>
       <span class='brand-icon'><i class='fas fa-gamepad'></i></span>
       <span class='brand-name'>Gamer Tech</span>
     </a>
@@ -20,7 +20,7 @@
     <div class='collapse navbar-collapse' id='navbarSupportedContent'>
       <ul class='navbar-nav ms-auto'>
         <li class='nav-item'>
-          <a class='nav-link' href='/home'>Inicio</a>
+          <a class='nav-link' href='/products'>Inicio</a>
         </li>
         <li class='nav-item'>
           <a class='nav-link' href='/api/products'>Productos</a>
@@ -120,7 +120,10 @@
     <ul class='pagination justify-content-center'>
       {{#if paginated.hasPrevPage}}
         <li class='page-item'>
-          <a class='page-link' href='/home/?limit={{paginated.limit}}&page={{paginated.prevPage}}'>
+          <a
+            class='page-link'
+            href='/products/?limit={{paginated.limit}}&page={{paginated.prevPage}}'
+          >
             ⬅️{{paginated.prevPage}}
           </a>
         </li>
@@ -133,7 +136,10 @@
       </li>
       {{#if paginated.hasNextPage}}
         <li class='page-item'>
-          <a class='page-link' href='/home/?limit={{paginated.limit}}&page={{paginated.nextPage}}'>
+          <a
+            class='page-link'
+            href='/products/?limit={{paginated.limit}}&page={{paginated.nextPage}}'
+          >
             {{paginated.nextPage}}➡️
           </a>
         </li>

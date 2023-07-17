@@ -2,6 +2,15 @@ import { cartModel } from '../DAO/models/carts.model.js';
 import { productModel } from '../DAO/models/products.model.js';
 
 class CartService {
+  async getAllCarts() {
+    try {
+      const carts = await cartModel.find({}).exec();
+      return carts;
+    } catch (error) {
+      throw new Error('Error al obtener los carritos');
+    }
+  }
+
   async createCart(products) {
     try {
       const cart = await cartModel.create(products);

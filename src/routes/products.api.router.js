@@ -2,22 +2,16 @@ import express from 'express';
 import { checkUser } from '../middlewares/auth.js';
 import { productService } from '../services/product.service.js';
 
-export const products = express.Router();
+export const productsApiRouter = express.Router();
 
 // GET con limit
 
-products.get('/', checkUser, async (req, res) => {
+productsApiRouter.get('/', checkUser, async (req, res) => {
   try {
     const queryParams = req.query;
-    const user = req.session.user.firstName;
-    const isAdmin = req.session.user.admin;
 
-    const paginatedProductsResponse = await productService.getAll(queryParams);
-    const paginatedProducts = paginatedProductsResponse.modifiedProducts;
-    const paginated = paginatedProductsResponse.products;
-    res
-      .status(200)
-      .render('products', { products: paginatedProducts, paginated: paginated, user, isAdmin });
+    const products = await productService.getJson(queryParams);
+    res.status(200).json(products);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -25,7 +19,7 @@ products.get('/', checkUser, async (req, res) => {
 
 // GET por ID
 
-products.get('/:pid', checkUser, async (req, res) => {
+productsApiRouter.get('/:pid', checkUser, async (req, res) => {
   try {
     const id = req.params.pid;
     const productById = await productService.getById(id);

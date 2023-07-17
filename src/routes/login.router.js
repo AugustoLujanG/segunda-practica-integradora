@@ -19,7 +19,7 @@ loginRouter.post(
       admin: req.user.admin,
     };
 
-    return res.redirect('/home');
+    return res.redirect('/products');
   }
 );
 

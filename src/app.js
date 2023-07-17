@@ -6,12 +6,13 @@ import passport from 'passport';
 import path from 'path';
 import { __dirname } from './config.js';
 import { iniPassport } from './config/passport.config.js';
+import { cartsApiRouter } from './routes/carts.api.router.js';
 import { cartsRouter } from './routes/carts.router.js';
-import { home } from './routes/home.router.js';
 import { initRouter } from './routes/init.router.js';
 import { loginRouter } from './routes/login.router.js';
 import { logoutRouter } from './routes/logout.router.js';
-import { productsRouter } from './routes/products.router.js';
+import { productsApiRouter } from './routes/products.api.router.js';
+import { products } from './routes/products.router.js';
 import { realTimeProducts } from './routes/realtimeproducts.router.js';
 import { registerRouter } from './routes/register.router.js';
 import { sessionsRouter } from './routes/sessions.router.js';
@@ -67,15 +68,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //TODOS MIS ENDPOINTS
-app.use('/api/products', productsRouter);
+app.use('/', initRouter);
+app.use('/api/carts', cartsApiRouter);
+app.use('/api/products', productsApiRouter);
 app.use('/api/sessions', sessionsRouter);
 app.use('/carts', cartsRouter);
-app.use('/', initRouter);
 app.use('/login', loginRouter);
-app.use('/register', registerRouter);
 app.use('/logout', logoutRouter);
-app.use('/home', home);
+app.use('/products', products);
 app.use('/realtimeproducts', realTimeProducts);
+app.use('/register', registerRouter);
 app.use('/test-chat', testChatRouter);
 
 //OTROS ENDPOINTS

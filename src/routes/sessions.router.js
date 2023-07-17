@@ -9,8 +9,8 @@ sessionsRouter.get(
   passport.authenticate('github', { failureRedirect: '/' }),
   (req, res) => {
     req.session.user = req.user;
-    // Successful authentication, redirect home.
-    res.redirect('/home');
+    // Successful authentication, redirect products.
+    res.redirect('/products');
   }
 );
 
