@@ -1,0 +1,146 @@
+<header class='navbar navbar-expand-lg navbar-light bg-light'>
+  <div class='container-fluid'>
+    <a class='navbar-brand' href='/home'>
+      <span class='brand-icon'><i class='fas fa-gamepad'></i></span>
+      <span class='brand-name'>Gamer Tech</span>
+    </a>
+
+    <button
+      class='navbar-toggler'
+      type='button'
+      data-bs-toggle='collapse'
+      data-bs-target='#navbarSupportedContent'
+      aria-controls='navbarSupportedContent'
+      aria-expanded='false'
+      aria-label='Toggle navigation'
+    >
+      <span class='navbar-toggler-icon'></span>
+    </button>
+
+    <div class='collapse navbar-collapse' id='navbarSupportedContent'>
+      <ul class='navbar-nav ms-auto'>
+        <li class='nav-item'>
+          <a class='nav-link' href='/home'>Inicio</a>
+        </li>
+        <li class='nav-item'>
+          <a class='nav-link' href='/api/products'>Productos</a>
+        </li>
+        <li class='nav-item'>
+          <a class='nav-link' href='/realtimeproducts'>Agregar/Eliminar productos (ADMIN)</a>
+        </li>
+        <li class='nav-item dropdown'>
+          <a
+            class='nav-link dropdown-toggle'
+            href='#'
+            id='profileDropdown'
+            role='button'
+            data-bs-toggle='dropdown'
+            aria-expanded='false'
+          >
+            <i class='fas fa-user'></i>
+            <!-- Icono de perfil -->
+          </a>
+          <ul class='dropdown-menu dropdown-menu-end' aria-labelledby='profileDropdown'>
+            <li>
+              <span class='dropdown-item'>
+                Bienvenido,
+                {{user}}
+                ({{#if isAdmin}}Admin{{else}}User{{/if}})
+              </span>
+            </li>
+            <li>
+              <span id='cartIcon' class='dropdown-item'>
+                <i class='fa fa-shopping-cart fa-lg'></i>
+                <span>Carrito</span>
+              </span>
+            </li>
+            <li>
+              <a class='dropdown-item logout-link' href='/logout'>
+                <i class='fas fa-sign-out-alt'></i>
+                <span>Salir</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class='position-relative'>
+      <a href='/test-chat' class='chat-bubble'>
+        <i class='fa fa-comments fa-lg'></i>
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class='container-fluid overflow-auto'>
+  <div class='row'>
+    {{#each products}}
+      <div class='col-md-4'>
+        <div class='card'>
+          <img class='card-img-top' src={{thumbnails}} alt='' />
+          <div class='card-body'>
+            <h2 class='card-title'>{{title}}</h2>
+            <p class='card-text'>{{description}}</p>
+            <p class='card-text'><strong>ID:</strong> {{_id}}</p>
+            <p class='card-text'><strong>Código:</strong> {{code}}</p>
+            <p class='card-text'><strong>Categoría:</strong> {{category}}</p>
+            <p class='card-text'><strong>Stock:</strong> {{stock}}</p>
+            <p class='card-text'><strong>Precio:</strong> ${{price}}</p>
+            <p class='card-text'><strong>Status:</strong> {{status}}</p>
+          </div>
+        </div>
+        <button class='btn btn-success mb-3 addToCart' data-productid='{{_id}}'>Añadir al carrito</button>
+      </div>
+    {{/each}}
+  </div>
+
+  <div class='row'>
+    {{#each productById}}
+      <div class='col-md-4'>
+        <div class='card'>
+          <img class='card-img-top' src={{thumbnails}} alt='' />
+          <div class='card-body'>
+            <h2 class='card-title'>{{title}}</h2>
+            <p class='card-text'>{{description}}</p>
+            <p class='card-text'><strong>ID:</strong> {{_id}}</p>
+            <p class='card-text'><strong>Código:</strong> {{code}}</p>
+            <p class='card-text'><strong>Categoría:</strong> {{category}}</p>
+            <p class='card-text'><strong>Stock:</strong> {{stock}}</p>
+            <p class='card-text'><strong>Precio:</strong> ${{price}}</p>
+            <p class='card-text'><strong>Status:</strong> {{status}}</p>
+          </div>
+        </div>
+        <button class='btn btn-success mb-3 addToCart' data-productid='{{_id}}'>Añadir al carrito</button>
+      </div>
+    {{/each}}
+  </div>
+
+  <nav aria-label='Paginación'>
+    <ul class='pagination justify-content-center'>
+      {{#if paginated.hasPrevPage}}
+        <li class='page-item'>
+          <a class='page-link' href='/home/?limit={{paginated.limit}}&page={{paginated.prevPage}}'>
+            ⬅️{{paginated.prevPage}}
+          </a>
+        </li>
+      {{/if}}
+      <li class='page-item active'>
+        <a class='page-link' href='#'>
+          {{paginated.page}}
+          <span class='sr-only'>(actual)</span>
+        </a>
+      </li>
+      {{#if paginated.hasNextPage}}
+        <li class='page-item'>
+          <a class='page-link' href='/home/?limit={{paginated.limit}}&page={{paginated.nextPage}}'>
+            {{paginated.nextPage}}➡️
+          </a>
+        </li>
+      {{/if}}
+    </ul>
+  </nav>
+</div>
+
+<script type='module' src='/js/cart.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>

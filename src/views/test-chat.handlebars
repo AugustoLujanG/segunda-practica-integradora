@@ -1,0 +1,112 @@
+<header class='navbar navbar-expand-lg navbar-light bg-light'>
+  <div class='container-fluid'>
+    <a class='navbar-brand' href='/home'>
+      <span class='brand-icon'><i class='fas fa-gamepad'></i></span>
+      <span class='brand-name'>Gamer Tech</span>
+    </a>
+
+    <button
+      class='navbar-toggler'
+      type='button'
+      data-bs-toggle='collapse'
+      data-bs-target='#navbarSupportedContent'
+      aria-controls='navbarSupportedContent'
+      aria-expanded='false'
+      aria-label='Toggle navigation'
+    >
+      <span class='navbar-toggler-icon'></span>
+    </button>
+
+    <div class='collapse navbar-collapse' id='navbarSupportedContent'>
+      <ul class='navbar-nav ms-auto'>
+        <li class='nav-item'>
+          <a class='nav-link' href='/home'>Inicio</a>
+        </li>
+        <li class='nav-item'>
+          <a class='nav-link' href='/api/products'>Productos</a>
+        </li>
+        <li class='nav-item'>
+          <a class='nav-link' href='/realtimeproducts'>Agregar/Eliminar productos (ADMIN)</a>
+        </li>
+        <li class='nav-item dropdown'>
+          <a
+            class='nav-link dropdown-toggle'
+            href='#'
+            id='profileDropdown'
+            role='button'
+            data-bs-toggle='dropdown'
+            aria-expanded='false'
+          >
+            <i class='fas fa-user'></i>
+            <!-- Icono de perfil -->
+          </a>
+          <ul class='dropdown-menu dropdown-menu-end' aria-labelledby='profileDropdown'>
+            <li>
+              <span class='dropdown-item'>
+                Bienvenido,
+                {{user}}
+                ({{#if isAdmin}}Admin{{else}}User{{/if}})
+              </span>
+            </li>
+            <li>
+              <span id='cartIcon' class='dropdown-item'>
+                <i class='fa fa-shopping-cart fa-lg'></i>
+                <span>Carrito</span>
+              </span>
+            </li>
+            <li>
+              <a class='dropdown-item logout-link' href='/logout'>
+                <i class='fas fa-sign-out-alt'></i>
+                <span>Salir</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class='position-relative'>
+      <a href='/test-chat' class='chat-bubble'>
+        <i class='fa fa-comments fa-lg'></i>
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class='chat-body'>
+  <div class='container'>
+    <div class='chat-header'>
+      <h3>CHAT DE LA TIENDA</h3>
+    </div>
+    <hr class='green-line' />
+
+    <div class='chat-messages'>
+      <p>Listado de mensajes:</p>
+      <div id='div-msgs' class='message-container'>
+        <div class='text-center'>
+          <div class='spinner-grow text-success' role='status'>
+            <span class='visually-hidden'>Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class='green-line' />
+
+    <div class='chat-input'>
+      <div class='input-group'>
+        <input
+          id='input-msg'
+          type='text'
+          class='form-control'
+          placeholder='Ingrese su mensaje...'
+        />
+        <button id='send-btn' class='btn btn-success' disabled>Enviar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src='/socket.io/socket.io.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<script src='/js/test-chat.js'></script>
