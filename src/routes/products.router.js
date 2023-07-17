@@ -9,8 +9,8 @@ export const products = express.Router();
 products.get('/', checkUser, async (req, res) => {
   try {
     const queryParams = req.query;
-    const user = req.session.user.firstName;
-    const isAdmin = req.session.user.admin;
+    const user = req.session.user.first_name;
+    const isAdmin = req.session.user.role;
 
     const paginatedProductsResponse = await productService.getAll(queryParams);
     const paginatedProducts = paginatedProductsResponse.modifiedProducts;

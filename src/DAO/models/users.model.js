@@ -4,11 +4,11 @@ import monsoosePaginate from 'mongoose-paginate-v2';
 export const userModel = model(
   'users',
   new Schema({
-    firstName: {
+    first_name: {
       max: 100,
       type: String,
     },
-    lastName: {
+    last_name: {
       max: 100,
       type: String,
     },
@@ -24,9 +24,9 @@ export const userModel = model(
       unique: true,
     },
 
-    admin: {
-      default: false,
-      type: Boolean,
+    role: {
+      default: 'user',
+      type: String,
     },
     age: {
       type: Number,

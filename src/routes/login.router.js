@@ -14,9 +14,9 @@ loginRouter.post(
       _id: req.user._id,
       age: req.user.age,
       email: req.user.email,
-      firstName: req.user.firstName,
-      lastName: req.user.lastName,
-      admin: req.user.admin,
+      first_name: req.user.first_name,
+      last_name: req.user.last_name,
+      role: req.user.role,
     };
 
     return res.redirect('/products');

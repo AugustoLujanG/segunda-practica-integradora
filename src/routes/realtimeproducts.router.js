@@ -1,6 +1,6 @@
 import express from 'express';
 import ProductManager from '../DAO/productManager.js';
-import { checkAdmin } from '../middlewares/auth.js';
+import { checkRole } from '../middlewares/auth.js';
 import { productService } from '../services/product.service.js';
 
 export const realTimeProducts = express.Router();
@@ -9,11 +9,11 @@ const productManager = new ProductManager('db/products.json');
 
 // GET con limit
 
-realTimeProducts.get('/', checkAdmin, async (req, res) => {
+realTimeProducts.get('/', checkRole, async (req, res) => {
   try {
     const queryParams = req.query;
-    const user = req.session.user.firstName;
-    const isAdmin = req.session.user.admin;
+    const user = req.session.user.first_name;
+    const isAdmin = req.session.user.role;
 
     const paginatedProductsResponse = await productService.getAll(queryParams);
     const paginatedProducts = paginatedProductsResponse.modifiedProducts;
@@ -31,7 +31,7 @@ realTimeProducts.get('/', checkAdmin, async (req, res) => {
 
 // GET por ID
 
-realTimeProducts.get('/:pid', checkAdmin, async (req, res) => {
+realTimeProducts.get('/:pid', checkRole, async (req, res) => {
   try {
     const id = req.params.pid;
     const productById = await productService.getById(id);

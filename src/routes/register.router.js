@@ -18,9 +18,9 @@ registerRouter.post(
       _id: req.user._id,
       age: req.user.age,
       email: req.user.email,
-      firstName: req.user.firstName,
-      lastName: req.user.lastName,
-      admin: req.user.admin,
+      first_name: req.user.first_name,
+      last_name: req.user.last_name,
+      admin: req.user.role,
     };
 
     return res.status(201).render('success-login');
