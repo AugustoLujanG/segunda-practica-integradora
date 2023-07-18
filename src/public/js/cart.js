@@ -20,7 +20,6 @@ async function getCurrentSession() {
   }
 }
 
-// Llama a la función para obtener el carritoId
 const cartId = await getCurrentSession();
 
 const addToCart = document.querySelectorAll('.addToCart');
