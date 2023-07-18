@@ -10,14 +10,14 @@ products.get('/', checkUser, async (req, res) => {
   try {
     const queryParams = req.query;
     const user = req.session.user.first_name;
-    const isAdmin = req.session.user.role;
+    const role = req.session.user.role;
 
     const paginatedProductsResponse = await productService.getAll(queryParams);
     const paginatedProducts = paginatedProductsResponse.modifiedProducts;
     const paginated = paginatedProductsResponse.products;
     res
       .status(200)
-      .render('products', { products: paginatedProducts, paginated: paginated, user, isAdmin });
+      .render('products', { products: paginatedProducts, paginated: paginated, user, role });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

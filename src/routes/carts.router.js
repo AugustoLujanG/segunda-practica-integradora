@@ -10,14 +10,14 @@ cartsRouter.get('/:cid', checkUser, async (req, res) => {
   try {
     const cartId = req.params.cid;
     const user = req.session.user.first_name;
-    const isAdmin = req.session.user.role;
+    const role = req.session.user.role;
 
     const cart = await cartService.getCart(cartId);
 
     const plainCart = cart.products.map(cart => cart.toObject());
 
     if (cart) {
-      res.status(200).render('carts', { plainCart, cartId: [cartId], user, isAdmin });
+      res.status(200).render('carts', { plainCart, cartId: [cartId], user, role });
     } else {
       res.status(404).json({ message: `Carrito ${cartId} no encontrado` });
     }

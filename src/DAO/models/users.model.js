@@ -4,6 +4,21 @@ import monsoosePaginate from 'mongoose-paginate-v2';
 export const userModel = model(
   'users',
   new Schema({
+    age: {
+      required: false,
+      type: Number,
+    },
+    cartID: {
+      required: true,
+      type: String,
+      unique: true,
+    },
+    email: {
+      max: 100,
+      required: true,
+      type: String,
+      unique: true,
+    },
     first_name: {
       max: 100,
       type: String,
@@ -17,19 +32,10 @@ export const userModel = model(
       required: false,
       type: String,
     },
-    email: {
-      max: 100,
-      required: true,
-      type: String,
-      unique: true,
-    },
-
     role: {
       default: 'user',
+      required: true,
       type: String,
-    },
-    age: {
-      type: Number,
     },
   }).plugin(monsoosePaginate)
 );

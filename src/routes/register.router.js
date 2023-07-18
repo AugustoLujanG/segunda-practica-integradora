@@ -20,7 +20,7 @@ registerRouter.post(
       email: req.user.email,
       first_name: req.user.first_name,
       last_name: req.user.last_name,
-      admin: req.user.role,
+      role: req.user.role,
     };
 
     return res.status(201).render('success-login');
