@@ -6,6 +6,7 @@ import local from 'passport-local';
 
 import { userModel } from '../DAO/models/users.model.js';
 import { createHash, isValidPassword } from '../config.js';
+import { cartService } from '../services/cart.service.js';
 const LocalStrategy = local.Strategy;
 
 export function iniPassport() {
@@ -59,11 +60,28 @@ export function iniPassport() {
             password: createHash(password),
             role,
           };
-          const userCreated = await userModel.create(newUser);
-          console.log('User Registration succesful');
-          return done(null, userCreated);
+
+          const products = {};
+
+          try {
+            const userCreated = await userModel.create(newUser);
+            try {
+              const cart = await cartService.createCart(products);
+              userCreated.cartID = cart;
+              await userCreated.save();
+            } catch (error) {
+              console.log('Error actualizando el carrito:', error);
+              return done(error);
+            }
+            console.log('Registro existoso');
+
+            return done(null, userCreated);
+          } catch (error) {
+            console.log('Error creando el usuario:', error);
+            return done(error);
+          }
         } catch (e) {
-          console.log('Error in register');
+          console.log('Error en el registro');
           return done(e);
         }
       }
@@ -99,14 +117,31 @@ export function iniPassport() {
           const user = await userModel.findOne({ email: profile.email }).exec();
           if (!user) {
             const newUser = {
+              cartID: '',
               email: profile.email,
               first_name: profile._json.name || profile._json.login || 'noname',
               last_name: 'nolast',
               password: 'nopass',
             };
-            const userCreated = await userModel.create(newUser);
-            console.log('User Registration succesful');
-            return done(null, userCreated);
+            const products = {};
+
+            try {
+              const userCreated = await userModel.create(newUser);
+              try {
+                const cart = await cartService.createCart(products);
+                userCreated.cartID = cart;
+                await userCreated.save();
+              } catch (error) {
+                console.log('Error actualizando el carrito:', error);
+                return done(error);
+              }
+              console.log('Registro existoso');
+
+              return done(null, userCreated);
+            } catch (error) {
+              console.log('Error creando el usuario:', error);
+              return done(error);
+            }
           } else {
             console.log('User already exists');
             return done(null, user);

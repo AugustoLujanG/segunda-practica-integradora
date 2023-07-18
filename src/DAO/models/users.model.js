@@ -9,7 +9,7 @@ export const userModel = model(
       type: Number,
     },
     cartID: {
-      required: true,
+      required: false,
       type: String,
       unique: true,
     },

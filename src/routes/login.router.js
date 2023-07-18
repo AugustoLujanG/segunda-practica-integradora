@@ -13,6 +13,7 @@ loginRouter.post(
     req.session.user = {
       _id: req.user._id,
       age: req.user.age,
+      cartID: req.user.cartID,
       email: req.user.email,
       first_name: req.user.first_name,
       last_name: req.user.last_name,

@@ -1,34 +1,36 @@
-const carritoId = localStorage.getItem('cart-id');
+async function getCurrentSession() {
+  try {
+    const response = await fetch('/api/sessions/current', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch current session');
+    }
+
+    const sessionData = await response.json();
+    const cartUser = sessionData?.user?.cartID;
+
+    return cartUser;
+  } catch (error) {
+    console.error('Error fetching current session:', error);
+  }
+}
+
+// Llama a la función para obtener el carritoId
+const cartId = await getCurrentSession();
+
 const addToCart = document.querySelectorAll('.addToCart');
 const deleteFromCart = document.querySelectorAll('.deleteFromCart');
 const deleteCart = document.querySelectorAll('.deleteCart');
 const cartIcon = document.getElementById('cartIcon');
 
-if (!carritoId) {
-  alert('no id');
-
-  const data = {};
-
-  fetch(`/carts`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Response:', data);
-      localStorage.setItem('cart-id', data);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-}
-
 if (cartIcon) {
   cartIcon.addEventListener('click', () => {
-    window.location.href = `/carts/${carritoId}`;
+    window.location.href = `/carts/${cartId}`;
   });
 }
 
@@ -49,7 +51,7 @@ addToCart.forEach(button => {
       cancelButtonText: 'Seguir comprando',
     }).then(result => {
       if (result.isConfirmed) {
-        window.location.href = `/carts/${carritoId}`;
+        window.location.href = `/carts/${cartId}`;
       }
     });
   });
@@ -77,7 +79,7 @@ deleteFromCart.forEach(button => {
           confirmButtonColor: '#3085d6',
           confirmButtonText: 'Aceptar',
         }).then(() => {
-          window.location.href = `/carts/${carritoId}`;
+          window.location.href = `/carts/${cartId}`;
         });
       }
     });
@@ -86,7 +88,6 @@ deleteFromCart.forEach(button => {
 
 deleteCart.forEach(button => {
   button.addEventListener('click', () => {
-    const cartId = button.getAttribute('data-cartid');
     Swal.fire({
       title: 'Eliminar carrito',
       text: '¿Estás seguro de que quieres eliminar este carrito?',
@@ -106,7 +107,7 @@ deleteCart.forEach(button => {
           confirmButtonColor: '#3085d6',
           confirmButtonText: 'Aceptar',
         }).then(() => {
-          window.location.href = `/carts/${carritoId}`;
+          window.location.href = `/carts/${cartId}`;
         });
       }
     });
@@ -115,7 +116,6 @@ deleteCart.forEach(button => {
 
 function addProductToCart(productId) {
   const products = { products: { product: productId } };
-  const cartId = localStorage.getItem('cart-id');
   fetch(`/carts/${cartId}/product/${productId}`, {
     method: 'PUT',
     headers: {
@@ -133,7 +133,6 @@ function addProductToCart(productId) {
 }
 
 function deleteProductToCart(productId) {
-  const cartId = localStorage.getItem('cart-id');
   fetch(`/carts/${cartId}/product/${productId}`, {
     method: 'DELETE',
     headers: {
